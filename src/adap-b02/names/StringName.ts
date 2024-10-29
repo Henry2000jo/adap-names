@@ -5,54 +5,111 @@ export class StringName implements Name {
     protected delimiter: string = DEFAULT_DELIMITER;
 
     protected name: string = "";
-    protected length: number = 0;
+    protected length: number = 0; // Number of components in Name instance
 
     constructor(other: string, delimiter?: string) {
-        throw new Error("needs implementation");
+        if (typeof delimiter !== 'undefined') {
+            this.delimiter = delimiter;
+        }
+        this.name = other;
+        if (this.name === '') {
+            this.length = 0;
+            return;
+        }
+        const escapedDelimiter = this.delimiter.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex = new RegExp(`(?<!\\\\)${escapedDelimiter}`);
+        this.length = this.name.split(regex).length;
     }
 
     public asString(delimiter: string = this.delimiter): string {
-        throw new Error("needs implementation");
+        let nameString: string = '';
+        for (let i = 0; i < this.getNoComponents(); i++) {
+            let component: string = this.getComponent(i);
+            component = component.replaceAll(ESCAPE_CHARACTER + this.delimiter, this.delimiter);
+            nameString += component;
+            if (i < this.getNoComponents() - 1) {
+                nameString += delimiter;
+            }
+        }
+        return nameString;
     }
 
     public asDataString(): string {
-        throw new Error("needs implementation");
+        return this.name;
     }
 
     public isEmpty(): boolean {
-        throw new Error("needs implementation");
+        return this.length === 0;
     }
 
     public getDelimiterCharacter(): string {
-        throw new Error("needs implementation");
+        return this.delimiter;
     }
 
     public getNoComponents(): number {
-        throw new Error("needs implementation");
+        return this.length;
     }
 
     public getComponent(x: number): string {
-        throw new Error("needs implementation");
+        if (x < 0 || x >= this.length) {
+            throw new Error('Index out of bounds');
+        }
+        const components = this.getComponents();
+        return components[x];
     }
 
     public setComponent(n: number, c: string): void {
-        throw new Error("needs implementation");
+        if (n < 0 || n > this.length) {
+            throw new Error('Index out of bounds');
+        }
+        if (n === this.length) {
+            this.append(c);
+        } else {
+            const components = this.getComponents();
+            components[n] = c;
+            this.name = components.join(this.delimiter);
+        }
     }
 
     public insert(n: number, c: string): void {
-        throw new Error("needs implementation");
+        if (n < 0 || n > this.length) {
+            throw new Error('Index out of bounds');
+        }
+        if (n === this.length) {
+            this.append(c);
+        } else {
+            const components = this.getComponents();
+            components.splice(n, 0, c);
+            this.name = components.join(this.delimiter);
+            this.length++;
+        }
     }
 
     public append(c: string): void {
-        throw new Error("needs implementation");
+        this.name += this.delimiter + c;
+        this.length++;
     }
 
     public remove(n: number): void {
-        throw new Error("needs implementation");
+        if (n < 0 || n >= this.length) {
+            throw new Error('Index out of bounds');
+        }
+        const components = this.getComponents();
+        components.splice(n, 1);
+        this.name = components.join(this.delimiter);
+        this.length--;
     }
 
     public concat(other: Name): void {
-        throw new Error("needs implementation");
+        for (let i = 0; i < other.getNoComponents(); i++) {
+            this.append(other.getComponent(i));
+        }
+    }
+
+    private getComponents() {
+        const escapedDelimiter = this.delimiter.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex =  new RegExp(`(?<!\\${ESCAPE_CHARACTER})${escapedDelimiter}`);
+        return this.name.split(regex);
     }
 
 }
