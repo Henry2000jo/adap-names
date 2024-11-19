@@ -44,7 +44,7 @@ export class Name {
      * The control characters in the data string are the default characters
      */
     public asDataString(): string {
-        return this.components.join(delimiter);
+        return this.components.join(this.delimiter);
     }
 
     // @methodtype get-method
