@@ -1,11 +1,11 @@
-import { Name, DEFAULT_DELIMITER, ESCAPE_CHARACTER } from "./Name";
+import { DEFAULT_DELIMITER, ESCAPE_CHARACTER } from "../common/Printable";
+import { Name } from "./Name";
 
 export class StringName implements Name {
 
     protected delimiter: string = DEFAULT_DELIMITER;
-
     protected name: string = "";
-    protected length: number = 0; // Number of components in Name instance
+    protected noComponents: number = 0;
 
     constructor(other: string, delimiter?: string) {
         if (typeof delimiter !== 'undefined') {
@@ -13,12 +13,12 @@ export class StringName implements Name {
         }
         this.name = other;
         if (this.name === '') {
-            this.length = 0;
+            this.noComponents = 0;
             return;
         }
         const escapedDelimiter = this.delimiter.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         const regex = new RegExp(`(?<!\\\\)${escapedDelimiter}`);
-        this.length = this.name.split(regex).length;
+        this.noComponents = this.name.split(regex).length;
     }
 
     public asString(delimiter: string = this.delimiter): string {
@@ -38,20 +38,20 @@ export class StringName implements Name {
         return this.name;
     }
 
-    public isEmpty(): boolean {
-        return this.length === 0;
-    }
-
     public getDelimiterCharacter(): string {
         return this.delimiter;
     }
 
+    public isEmpty(): boolean {
+        return this.noComponents === 0;
+    }
+
     public getNoComponents(): number {
-        return this.length;
+        return this.noComponents;
     }
 
     public getComponent(x: number): string {
-        if (x < 0 || x >= this.length) {
+        if (x < 0 || x >= this.noComponents) {
             throw new Error('Index out of bounds');
         }
         const components = this.getComponents();
@@ -59,10 +59,10 @@ export class StringName implements Name {
     }
 
     public setComponent(n: number, c: string): void {
-        if (n < 0 || n > this.length) {
+        if (n < 0 || n > this.noComponents) {
             throw new Error('Index out of bounds');
         }
-        if (n === this.length) {
+        if (n === this.noComponents) {
             this.append(c);
         } else {
             const components = this.getComponents();
@@ -72,32 +72,32 @@ export class StringName implements Name {
     }
 
     public insert(n: number, c: string): void {
-        if (n < 0 || n > this.length) {
+        if (n < 0 || n > this.noComponents) {
             throw new Error('Index out of bounds');
         }
-        if (n === this.length) {
+        if (n === this.noComponents) {
             this.append(c);
         } else {
             const components = this.getComponents();
             components.splice(n, 0, c);
             this.name = components.join(this.delimiter);
-            this.length++;
+            this.noComponents++;
         }
     }
 
     public append(c: string): void {
         this.name += this.delimiter + c;
-        this.length++;
+        this.noComponents++;
     }
 
     public remove(n: number): void {
-        if (n < 0 || n >= this.length) {
+        if (n < 0 || n >= this.noComponents) {
             throw new Error('Index out of bounds');
         }
         const components = this.getComponents();
         components.splice(n, 1);
         this.name = components.join(this.delimiter);
-        this.length--;
+        this.noComponents--;
     }
 
     public concat(other: Name): void {

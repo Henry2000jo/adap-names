@@ -1,4 +1,5 @@
-import { Name, DEFAULT_DELIMITER, ESCAPE_CHARACTER } from "./Name";
+import { DEFAULT_DELIMITER, ESCAPE_CHARACTER } from "../common/Printable";
+import { Name } from "./Name";
 
 export abstract class AbstractName implements Name {
 
@@ -8,6 +9,11 @@ export abstract class AbstractName implements Name {
         if (typeof delimiter !== 'undefined') {
             this.delimiter = delimiter;
         }
+    }
+
+    public clone(): Name {
+        const clone = Object.create(Object.getPrototypeOf(this));
+        return Object.assign(clone, this);
     }
 
     public asString(delimiter: string = this.delimiter): string {
@@ -65,10 +71,6 @@ export abstract class AbstractName implements Name {
         return hashCode;
     }
 
-    public clone(): Name {
-        const clone = Object.create(Object.getPrototypeOf(this));
-        return Object.assign(clone, this);
-    }
 
     public isEmpty(): boolean {
         return this.getNoComponents() === 0;
