@@ -9,10 +9,14 @@ export class Directory extends Node {
     }
 
     public add(cn: Node): void {
+        this.assertIsNotNullOrUndefined(cn);
+
         this.childNodes.add(cn);
     }
 
     public remove(cn: Node): void {
+        this.assertIsNotNullOrUndefined(cn);
+
         this.childNodes.delete(cn); // Yikes! Should have been called remove
     }
 

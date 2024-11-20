@@ -27,6 +27,8 @@ export class Link extends Node {
     }
 
     public rename(bn: string): void {
+        this.assertValidName(bn);
+
         const target = this.ensureTargetNode(this.targetNode);
         target.rename(bn);
     }
