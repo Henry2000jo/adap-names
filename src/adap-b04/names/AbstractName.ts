@@ -155,7 +155,7 @@ export abstract class AbstractName implements Name {
 
     protected assertIsNotNullOrUndefined(other: Object, useStateException: boolean = false): void {
         if (useStateException) {
-            InvalidStateException.assertNotNullOrUndefined(other, "null or undefined argument");
+            InvalidStateException.assertIsNotNullOrUndefined(other, "null or undefined argument");
         } else {
             IllegalArgumentException.assertIsNotNullOrUndefined(other, "null or undefined argument");    
         } 
@@ -247,7 +247,7 @@ export abstract class AbstractName implements Name {
     }
 
     protected assertSuccessfulClone(clone: Name): void {
-        MethodFailureException.assertNotNullOrUndefined(clone, "clone not successful");
+        MethodFailureException.assertIsNotNullOrUndefined(clone, "clone not successful");
         MethodFailureException.assertCondition(clone !== this, "clone not successful");
         MethodFailureException.assertCondition(clone.isEqual(this), "clone not successful");
     }
