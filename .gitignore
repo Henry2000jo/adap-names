@@ -2,4 +2,7 @@ dist
 node_modules
 solution
 .vscode
+*-solutions
+*-private
+
 .DS_Store
