@@ -18,8 +18,6 @@ export class Link extends Node {
     }
 
     public setTargetNode(target: Node): void {
-        this.assertIsNotNullOrUndefined(target);
-        
         this.targetNode = target;
     }
 
@@ -39,4 +37,16 @@ export class Link extends Node {
         const result: Node = this.targetNode as Node;
         return result;
     }
+
+    public findNodes(bn: string): Set<Node> {
+        const result: Set<Node> = super.findNodes(bn);
+
+        if (this.targetNode != null) {
+            const foundNodes: Set<Node> = this.targetNode.findNodes(bn);
+            foundNodes.forEach((n) => result.add(n));
+        }
+
+        return result
+    }
+
 }
