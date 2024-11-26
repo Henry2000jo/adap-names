@@ -2,7 +2,7 @@ import { DEFAULT_DELIMITER, ESCAPE_CHARACTER } from "../common/Printable";
 import { Name } from "./Name";
 import { AbstractName } from "./AbstractName";
 import { InvalidStateException } from "../common/InvalidStateException";
-import { MethodFailureException } from "../common/MethodFailureException";
+import { MethodFailedException } from "../common/MethodFailedException";
 
 export class StringArrayName extends AbstractName {
 
@@ -105,15 +105,15 @@ export class StringArrayName extends AbstractName {
     /* Assertion methods for postconditions */
 
     protected assertSuccessfulConstruction2(other: string[]): void {
-        MethodFailureException.assertCondition(this.getNoComponents() === other.length, "construction failed");
+        MethodFailedException.assertCondition(this.getNoComponents() === other.length, "construction failed");
         for (let i = 0; i < other.length; i++) {
-            MethodFailureException.assertCondition(this.getComponent(i) === other[i], "construction failed");
+            MethodFailedException.assertCondition(this.getComponent(i) === other[i], "construction failed");
         }
     }
         
     protected restoreComponentsAndFail(savedComponents: string[], msg: string): void {
         this.components = savedComponents;
-        throw new MethodFailureException(msg);
+        throw new MethodFailedException(msg);
     }
 
     protected assertSuccessfulSetComponent(i: number, c: string, savedComponents: string[]): void {

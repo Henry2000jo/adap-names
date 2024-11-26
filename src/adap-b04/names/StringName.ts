@@ -2,7 +2,7 @@ import { DEFAULT_DELIMITER, ESCAPE_CHARACTER } from "../common/Printable";
 import { Name } from "./Name";
 import { AbstractName } from "./AbstractName";
 import { InvalidStateException } from "../common/InvalidStateException";
-import { MethodFailureException } from "../common/MethodFailureException";
+import { MethodFailedException } from "../common/MethodFailedException";
 
 export class StringName extends AbstractName {
 
@@ -147,14 +147,14 @@ export class StringName extends AbstractName {
 
     protected assertSuccessfulConstruction2(other: string): void {
         if (this.name !== other) {
-            throw new MethodFailureException("construction failed");
+            throw new MethodFailedException("construction failed");
         }
     }
 
     protected restoreNameAndFail(savedName: string, savedLength: number, msg: string): void {
         this.name = savedName;
         this.noComponents = savedLength;
-        throw new MethodFailureException(msg);
+        throw new MethodFailedException(msg);
     }
 
     protected assertSuccessfulSetComponent(i: number, c: string, savedName: string, savedLength: number): void {

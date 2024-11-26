@@ -1,6 +1,6 @@
 import { IllegalArgumentException } from "../common/IllegalArgumentException";
 import { InvalidStateException } from "../common/InvalidStateException";
-import { MethodFailureException } from "../common/MethodFailureException";
+import { MethodFailedException } from "../common/MethodFailedException";
 import { DEFAULT_DELIMITER, ESCAPE_CHARACTER } from "../common/Printable";
 import { Name } from "./Name";
 
@@ -244,17 +244,17 @@ export abstract class AbstractName implements Name {
     /* Assertion methods for postconditions */
 
     protected assertSuccessfulConstruction(delimiter: string): void {
-        MethodFailureException.assertCondition(this.getDelimiterCharacter() === delimiter, "construction not successful");
+        MethodFailedException.assertCondition(this.getDelimiterCharacter() === delimiter, "construction not successful");
     }
 
     protected assertSuccessfulClone(clone: Name): void {
-        MethodFailureException.assertIsNotNullOrUndefined(clone, "clone not successful");
-        MethodFailureException.assertCondition(clone !== this, "clone not successful");
-        MethodFailureException.assertCondition(clone.isEqual(this), "clone not successful");
+        MethodFailedException.assertIsNotNullOrUndefined(clone, "clone not successful");
+        MethodFailedException.assertCondition(clone !== this, "clone not successful");
+        MethodFailedException.assertCondition(clone.isEqual(this), "clone not successful");
     }
 
     protected assertHashCodeIsEqual(other: Name): void {
-        MethodFailureException.assertCondition(this.getHashCode() === other.getHashCode(), "hash codes not equal");
+        MethodFailedException.assertCondition(this.getHashCode() === other.getHashCode(), "hash codes not equal");
     }
 
     protected assertSuccessfulConcat(other: Name, savedLength: number): void {
@@ -274,7 +274,7 @@ export abstract class AbstractName implements Name {
             for (let i = this.getNoComponents() - 1; i >= savedLength; i--) {
                 this.remove(i);
             }
-            throw new MethodFailureException("concat not successful");
+            throw new MethodFailedException("concat not successful");
         }
     }
 
