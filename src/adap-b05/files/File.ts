@@ -1,6 +1,7 @@
 import { Node } from "./Node";
 import { Directory } from "./Directory";
 import { MethodFailedException } from "../common/MethodFailedException";
+import { InvalidStateException } from "../common/InvalidStateException";
 
 enum FileState {
     OPEN,
@@ -17,6 +18,8 @@ export class File extends Node {
     }
 
     public open(): void {
+        this.assertIsInState(FileState.CLOSED);
+
         // do something
     }
 
@@ -44,11 +47,22 @@ export class File extends Node {
     }
 
     public close(): void {
+        this.assertIsInState(FileState.OPEN);
+        
         // do something
     }
 
     protected doGetFileState(): FileState {
         return this.state;
+    }
+
+
+    /* Assertion methods for preconditions */
+
+    protected assertIsInState(state: FileState) {
+        if (state != this.doGetFileState()) {
+            throw new InvalidStateException("invalid file state");
+        }
     }
 
 }

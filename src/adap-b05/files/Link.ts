@@ -18,6 +18,8 @@ export class Link extends Node {
     }
 
     public setTargetNode(target: Node): void {
+        this.assertIsNotNullOrUndefined(target);
+        
         this.targetNode = target;
     }
 
@@ -27,6 +29,8 @@ export class Link extends Node {
     }
 
     public rename(bn: string): void {
+        this.assertValidName(bn);
+
         const target = this.ensureTargetNode(this.targetNode);
         target.rename(bn);
     }

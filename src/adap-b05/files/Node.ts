@@ -5,12 +5,17 @@ import { InvalidStateException } from "../common/InvalidStateException";
 import { Name } from "../names/Name";
 import { Directory } from "./Directory";
 
+export const SEPARATOR: string = "/";
+
 export class Node {
 
     protected baseName: string = "";
     protected parentNode: Directory;
 
     constructor(bn: string, pn: Directory) {
+        this.assertValidName(bn);
+        this.assertIsNotNullOrUndefined(pn);
+
         this.doSetBaseName(bn);
         this.parentNode = pn; // why oh why do I have to set this
         this.initialize(pn);
@@ -22,6 +27,8 @@ export class Node {
     }
 
     public move(to: Directory): void {
+        this.assertIsNotNullOrUndefined(to);
+
         this.parentNode.remove(this);
         to.add(this);
         this.parentNode = to;
@@ -42,6 +49,8 @@ export class Node {
     }
 
     public rename(bn: string): void {
+        this.assertValidName(bn);
+
         this.doSetBaseName(bn);
     }
 
@@ -69,6 +78,27 @@ export class Node {
     protected assertIsValidBaseName(bn: string, et: ExceptionType): void {
         const condition: boolean = (bn != "");
         AssertionDispatcher.dispatch(et, condition, "invalid base name");
+    }
+
+
+    /* Assertion methods for preconditions */
+
+    protected assertIsNotNullOrUndefined(other: Object): void {
+        IllegalArgumentException.assertIsNotNullOrUndefined(other, "null or undefined argument");     
+    }
+
+    protected assertIsNotEmpty(s: string): void {
+        IllegalArgumentException.assertCondition(s.length > 0, "empty string argument");
+    }
+
+    protected assertDoesNotContainSeparator(s: string): void {
+        IllegalArgumentException.assertCondition(s.includes(SEPARATOR), "separator character in argument");
+    }
+
+    protected assertValidName(s: string): void {
+        this.assertIsNotNullOrUndefined(s);
+        this.assertIsNotEmpty(s);
+        this.assertDoesNotContainSeparator(s);
     }
 
 }
