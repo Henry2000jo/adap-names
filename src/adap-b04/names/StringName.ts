@@ -111,7 +111,7 @@ export class StringName extends AbstractName {
 
     private getComponents(): string[] {
         if (this.name === '') {
-            return [];
+            return [''];
         }
         let components: string[] = [''];
         let prevIsEscapeCharacter = false;
