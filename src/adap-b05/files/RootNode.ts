@@ -37,4 +37,9 @@ export class RootNode extends Directory {
         AssertionDispatcher.dispatch(et, condition, "invalid base name");
     }
 
+    protected assertValidName(s: string): void {
+        this.assertIsNotNullOrUndefined(s);
+        this.assertDoesNotContainSeparator(s);
+    }
+
 }

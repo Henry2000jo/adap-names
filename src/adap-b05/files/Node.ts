@@ -1,6 +1,8 @@
 import { ExceptionType, AssertionDispatcher } from "../common/AssertionDispatcher";
+import { Exception } from "../common/Exception";
 import { IllegalArgumentException } from "../common/IllegalArgumentException";
 import { InvalidStateException } from "../common/InvalidStateException";
+import { ServiceFailureException } from "../common/ServiceFailureException";
 
 import { Name } from "../names/Name";
 import { Directory } from "./Directory";
@@ -73,6 +75,12 @@ export class Node {
         if (this.getBaseName() == bn) {
             result.add(this);
         }
+
+        try {
+            this.assertClassInvariants();
+        } catch (e) {
+            ServiceFailureException.assertCondition(false, undefined, e as Exception);
+        } 
         return result;
     }
 
@@ -103,7 +111,7 @@ export class Node {
 
     protected assertValidName(s: string): void {
         this.assertIsNotNullOrUndefined(s);
-        //this.assertIsNotEmpty(s);
+        this.assertIsNotEmpty(s);
         this.assertDoesNotContainSeparator(s);
     }
 
