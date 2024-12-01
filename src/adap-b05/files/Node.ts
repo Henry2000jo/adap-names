@@ -71,6 +71,12 @@ export class Node {
     public findNodes(bn: string): Set<Node> {
         this.assertValidName(bn);
 
+        try {
+            this.assertClassInvariants();
+        } catch (e) {
+            ServiceFailureException.assertCondition(false, undefined, e as Exception);
+        } 
+
         const result: Set<Node> = new Set<Node>();
         if (this.getBaseName() == bn) {
             result.add(this);
