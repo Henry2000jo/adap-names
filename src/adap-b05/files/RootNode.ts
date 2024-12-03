@@ -1,8 +1,8 @@
-import { ExceptionType, AssertionDispatcher } from "../common/AssertionDispatcher";
-
+import { InvalidStateException } from "../common/InvalidStateException";
 import { Name } from "../names/Name";
 import { StringName } from "../names/StringName";
 import { Directory } from "./Directory";
+import { SEPARATOR } from "./Node";
 
 export class RootNode extends Directory {
 
@@ -32,14 +32,29 @@ export class RootNode extends Directory {
         // null operation
     }
 
-    protected assertIsValidBaseName(bn: string, et: ExceptionType): void {
-        const condition: boolean = (bn == ""); // Root must have "" as base name
-        AssertionDispatcher.dispatch(et, condition, "invalid base name");
-    }
-
     protected assertValidName(s: string): void {
         this.assertIsNotNullOrUndefined(s);
         this.assertDoesNotContainSeparator(s);
+    }
+
+    protected assertClassInvariants(): void {
+        const bn: string = this.doGetBaseName();
+        this.assertValidNameClass(bn);
+    }
+
+    /* Assertion methods for class invariants */
+
+    protected assertIsNotNullOrUndefinedClass(other: Object): void {
+        InvalidStateException.assertIsNotNullOrUndefined(other, "null or undefined argument");     
+    }
+
+    protected assertDoesNotContainSeparatorClass(s: string): void {
+        InvalidStateException.assert(!s.includes(SEPARATOR), "separator character in argument");
+    }
+
+    protected assertValidNameClass(s: string): void {
+        this.assertIsNotNullOrUndefinedClass(s);
+        this.assertDoesNotContainSeparatorClass(s);
     }
 
 }

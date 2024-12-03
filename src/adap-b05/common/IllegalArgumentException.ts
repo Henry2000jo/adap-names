@@ -8,10 +8,10 @@ import { InvalidStateException } from "./InvalidStateException";
 export class IllegalArgumentException extends Exception {
 
     static assertIsNotNullOrUndefined(o: Object | null, m: string = "null or undefined", t?: Exception): void {
-        this.assertCondition(!this.isNullOrUndefined(o), m);
+        this.assert(!this.isNullOrUndefined(o), m);
     }
-    
-    static assertCondition(c: boolean, m: string = "illegal argument", t?: Exception): void {
+
+    public static assert(c: boolean, m: string = "illegal argument", t?: Exception): void {
         if (!c) throw new IllegalArgumentException(m, t);
     }
     
@@ -20,7 +20,7 @@ export class IllegalArgumentException extends Exception {
     }
 
     public getTrigger(): Exception {
-        InvalidStateException.assertCondition(this.hasTrigger());
+        InvalidStateException.assert(this.hasTrigger());
         return super.getTrigger();
     }
 

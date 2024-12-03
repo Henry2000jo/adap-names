@@ -95,9 +95,9 @@ export class StringArrayName extends AbstractName {
     /* Assertion methods for class invariants */
 
     protected assertHasValidComponentsInArray(): void {
-        InvalidStateException.assertCondition(this.components.length === this.getNoComponents(), "invalid number of components");
+        InvalidStateException.assert(this.components.length === this.getNoComponents(), "invalid number of components");
         for (let i = 0; i < this.components.length; i++) {
-            InvalidStateException.assertCondition(this.components[i] === this.getComponent(i), "invalid component at index " + i);
+            InvalidStateException.assert(this.components[i] === this.getComponent(i), "invalid component at index " + i);
         }
     }
 
@@ -105,9 +105,9 @@ export class StringArrayName extends AbstractName {
     /* Assertion methods for postconditions */
 
     protected assertSuccessfulConstruction2(other: string[]): void {
-        MethodFailedException.assertCondition(this.getNoComponents() === other.length, "construction failed");
+        MethodFailedException.assert(this.getNoComponents() === other.length, "construction failed");
         for (let i = 0; i < other.length; i++) {
-            MethodFailedException.assertCondition(this.getComponent(i) === other[i], "construction failed");
+            MethodFailedException.assert(this.getComponent(i) === other[i], "construction failed");
         }
     }
         

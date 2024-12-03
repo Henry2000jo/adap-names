@@ -67,11 +67,11 @@ export class Node {
     }
 
     protected assertIsNotEmpty(s: string): void {
-        IllegalArgumentException.assertCondition(s.length > 0, "empty string argument");
+        IllegalArgumentException.assert(s.length > 0, "empty string argument");
     }
 
     protected assertDoesNotContainSeparator(s: string): void {
-        IllegalArgumentException.assertCondition(s.includes(SEPARATOR), "separator character in argument");
+        IllegalArgumentException.assert(s.includes(SEPARATOR), "separator character in argument");
     }
 
     protected assertValidName(s: string): void {

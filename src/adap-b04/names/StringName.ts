@@ -139,7 +139,7 @@ export class StringName extends AbstractName {
 
     protected assertHasValidNoComponents(): void {
         const newName = new StringName(this.name, this.getDelimiterCharacter());
-        InvalidStateException.assertCondition(this.noComponents === newName.getNoComponents(), "invalid number of components");
+        InvalidStateException.assert(this.noComponents === newName.getNoComponents(), "invalid number of components");
     }
 
 

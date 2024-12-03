@@ -24,18 +24,8 @@ export abstract class Exception extends Error {
     }
 
     public getTrigger(): Exception {
-        this.assertHasTrigger(); // should be InvalidStateException
+        // @todo check if trigger is null
         return this.trigger as Exception;
-    }
-
-    protected assertHasTrigger(): void {
-        if (!this.hasTrigger()) {
-            throw new (class extends Exception {
-                constructor(t: Exception) {
-                    super("exception had no trigger", t); 
-                }
-            })(this);
-        }
     }
 
 }

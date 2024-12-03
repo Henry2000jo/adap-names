@@ -1,4 +1,3 @@
-import { ExceptionType, AssertionDispatcher } from "../common/AssertionDispatcher";
 import { Exception } from "../common/Exception";
 import { IllegalArgumentException } from "../common/IllegalArgumentException";
 import { InvalidStateException } from "../common/InvalidStateException";
@@ -74,7 +73,7 @@ export class Node {
         try {
             this.assertClassInvariants();
         } catch (e) {
-            ServiceFailureException.assertCondition(false, undefined, e as Exception);
+            ServiceFailureException.assert(false, undefined, e as Exception);
         } 
 
         const result: Set<Node> = new Set<Node>();
@@ -85,20 +84,16 @@ export class Node {
         try {
             this.assertClassInvariants();
         } catch (e) {
-            ServiceFailureException.assertCondition(false, undefined, e as Exception);
+            ServiceFailureException.assert(false, undefined, e as Exception);
         } 
         return result;
     }
 
     protected assertClassInvariants(): void {
         const bn: string = this.doGetBaseName();
-        this.assertIsValidBaseName(bn, ExceptionType.CLASS_INVARIANT);
+        this.assertValidNameClass(bn);
     }
 
-    protected assertIsValidBaseName(bn: string, et: ExceptionType): void {
-        const condition: boolean = (bn != "");
-        AssertionDispatcher.dispatch(et, condition, "invalid base name");
-    }
 
 
     /* Assertion methods for preconditions */
@@ -108,17 +103,37 @@ export class Node {
     }
 
     protected assertIsNotEmpty(s: string): void {
-        IllegalArgumentException.assertCondition(s.length > 0, "empty string argument");
+        IllegalArgumentException.assert(s.length > 0, "empty string argument");
     }
 
     protected assertDoesNotContainSeparator(s: string): void {
-        IllegalArgumentException.assertCondition(!s.includes(SEPARATOR), "separator character in argument");
+        IllegalArgumentException.assert(!s.includes(SEPARATOR), "separator character in argument");
     }
 
     protected assertValidName(s: string): void {
         this.assertIsNotNullOrUndefined(s);
         this.assertIsNotEmpty(s);
         this.assertDoesNotContainSeparator(s);
+    }
+
+    /* Assertion methods for class invariants */
+
+    protected assertIsNotNullOrUndefinedClass(other: Object): void {
+        InvalidStateException.assertIsNotNullOrUndefined(other, "null or undefined argument");     
+    }
+
+    protected assertIsNotEmptyClass(s: string): void {
+        InvalidStateException.assert(s.length > 0, "empty string argument");
+    }
+
+    protected assertDoesNotContainSeparatorClass(s: string): void {
+        InvalidStateException.assert(!s.includes(SEPARATOR), "separator character in argument");
+    }
+
+    protected assertValidNameClass(s: string): void {
+        this.assertIsNotNullOrUndefinedClass(s);
+        this.assertIsNotEmptyClass(s);
+        this.assertDoesNotContainSeparatorClass(s);
     }
 
 }

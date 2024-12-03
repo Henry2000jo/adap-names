@@ -165,18 +165,18 @@ export abstract class AbstractName implements Name {
     protected assertIsSingleCharacter(s: string, useStateException: boolean = false): void {
         const condition: boolean = s.length === 1;
         if (useStateException) {
-            InvalidStateException.assertCondition(condition, "not single character argument");
+            InvalidStateException.assert(condition, "not single character argument");
         } else {
-            IllegalArgumentException.assertCondition(condition, "not single character argument");
+            IllegalArgumentException.assert(condition, "not single character argument");
         }
     }
 
     protected assertIsNotEscapeCharacter(s: string, useStateException: boolean = false): void {
         const condition: boolean = s !== ESCAPE_CHARACTER;
         if (useStateException) {
-            InvalidStateException.assertCondition(condition, "escape character argument");
+            InvalidStateException.assert(condition, "escape character argument");
         } else {
-            IllegalArgumentException.assertCondition(condition, "escape character argument");
+            IllegalArgumentException.assert(condition, "escape character argument");
         }
     }
 
@@ -197,9 +197,9 @@ export abstract class AbstractName implements Name {
                 }
             } else if (s.charAt(i) === this.getDelimiterCharacter()) {
                 if (useStateException) {
-                    InvalidStateException.assertCondition(escapeCharacterRead, "unmasked delimiter character");
+                    InvalidStateException.assert(escapeCharacterRead, "unmasked delimiter character");
                 } else {
-                    IllegalArgumentException.assertCondition(escapeCharacterRead, "unmasked delimiter character");
+                    IllegalArgumentException.assert(escapeCharacterRead, "unmasked delimiter character");
                 }
                 escapeCharacterRead = false;
             } else {
@@ -216,9 +216,9 @@ export abstract class AbstractName implements Name {
     protected assertIndexInBounds(i: number, includeUpperBound: boolean = false, useStateException: boolean = false): void {
         const condition: boolean = i >= 0 && (includeUpperBound ? i <= this.getNoComponents() : i < this.getNoComponents());
         if (useStateException) {
-            InvalidStateException.assertCondition(condition, "index out of bounds");
+            InvalidStateException.assert(condition, "index out of bounds");
         } else {
-            IllegalArgumentException.assertCondition(condition, "index out of bounds");
+            IllegalArgumentException.assert(condition, "index out of bounds");
         }
     }
 
@@ -244,17 +244,17 @@ export abstract class AbstractName implements Name {
     /* Assertion methods for postconditions */
 
     protected assertSuccessfulConstruction(delimiter: string): void {
-        MethodFailedException.assertCondition(this.getDelimiterCharacter() === delimiter, "construction not successful");
+        MethodFailedException.assert(this.getDelimiterCharacter() === delimiter, "construction not successful");
     }
 
     protected assertSuccessfulClone(clone: Name): void {
         MethodFailedException.assertIsNotNullOrUndefined(clone, "clone not successful");
-        MethodFailedException.assertCondition(clone !== this, "clone not successful");
-        MethodFailedException.assertCondition(clone.isEqual(this), "clone not successful");
+        MethodFailedException.assert(clone !== this, "clone not successful");
+        MethodFailedException.assert(clone.isEqual(this), "clone not successful");
     }
 
     protected assertHashCodeIsEqual(other: Name): void {
-        MethodFailedException.assertCondition(this.getHashCode() === other.getHashCode(), "hash codes not equal");
+        MethodFailedException.assert(this.getHashCode() === other.getHashCode(), "hash codes not equal");
     }
 
     protected assertSuccessfulConcat(other: Name, savedLength: number): void {
