@@ -5,7 +5,11 @@ import { Exception } from "./Exception";
  * In other words, a postcondition failed.
  */
 export class MethodFailedException extends Exception {
-  
+    
+    static assertIsNotNullOrUndefined(o: Object | null, m: string = "null or undefined", t?: Exception): void {
+        this.assert(!this.isNullOrUndefined(o), m);
+    }
+
     public static assert(c: boolean, m: string = "method failed", t?: Exception): void {
         if (!c) throw new MethodFailedException(m, t);
     }
