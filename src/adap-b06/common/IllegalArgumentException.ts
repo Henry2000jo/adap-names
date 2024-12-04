@@ -7,6 +7,10 @@ import { InvalidStateException } from "./InvalidStateException";
  */
 export class IllegalArgumentException extends Exception {
 
+    static assertIsNotUndefined(o: Object, m: string = "undefined", t?: Exception): void {
+        this.assert(o !== undefined, m);
+    }
+
     public static assert(c: boolean, m: string = "illegal argument", t?: Exception): void {
         if (!c) throw new IllegalArgumentException(m, t);
     }
