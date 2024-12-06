@@ -19,17 +19,18 @@ export class StringName extends AbstractName {
     constructor(other: string, delimiter?: string) {
         super(delimiter);
 
+        // Precondition
         this.assertIsNotUndefined(other);
-
-        this.name = other;
-        const components = this.getComponents();
-
+        const components = this.getComponents(other);
         for (let i = 0; i < components.length; i++) {
             this.assertIsValidComponent(components[i]);
         }
 
+        // Body
+        this.name = other;
         this.noComponents = components.length;
         
+        // Postcondition
         this.assertSuccessfulConstruction2(other);
     }
 
@@ -39,16 +40,20 @@ export class StringName extends AbstractName {
     }
 
     public getComponent(i: number): string {
+        // Precondition
         this.assertIsValidIndex(i);
         
+        // Body
         const components = this.getComponents();
         return components[i];
     }
 
     public setComponent(i: number, c: string): StringName {
+        // Precondition
         this.assertIsValidIndex(i, true);
         this.assertIsValidComponent(c);
 
+        // Body
         const newName = this.getDeepCopy();
         if (i === newName.noComponents) {
             newName.name += newName.getDelimiterCharacter() + c;
@@ -59,15 +64,18 @@ export class StringName extends AbstractName {
             newName.name = components.join(newName.getDelimiterCharacter());
         }
 
-        this.assertSuccessfulSetComponent(newName, i, c);
+        // Postcondition
+        newName.assertSuccessfulSetComponent(this, i, c);
         return newName;
 
     }
 
     public insert(i: number, c: string): StringName {
+        // Precondition
         this.assertIsValidIndex(i, true);
         this.assertIsValidComponent(c);
 
+        // Body
         const newName = this.getDeepCopy();
         if (i === newName.noComponents) {
             newName.name += newName.getDelimiterCharacter() + c;
@@ -79,32 +87,39 @@ export class StringName extends AbstractName {
             newName.noComponents++;
         }
 
-        this.assertSuccessfulInsert(newName, i, c);
+        // Postcondition
+        newName.assertSuccessfulInsert(this, i, c);
         return newName;
     }
 
     public append(c: string): StringName {
+        // Precondition
         this.assertIsValidComponent(c);
 
+        // Body
         const newName = this.getDeepCopy();
         newName.name += newName.getDelimiterCharacter() + c;
         newName.noComponents++;
-        return newName;
 
-        // this.assertSuccessfulAppend(c, savedName, savedLength);
+        // Postcondition
+        newName.assertSuccessfulAppend(this, c);
+        return newName;
     }
 
     public remove(i: number): StringName {
+        // Precondition
         this.assertIsValidIndex(i);
         
+        // Body
         const newName = this.getDeepCopy();
         const components = newName.getComponents();
         components.splice(i, 1);
         newName.name = components.join(newName.getDelimiterCharacter());
         newName.noComponents--;
-        return newName;
 
-        // this.assertSuccessfulRemove(i, savedName, savedLength);
+        // Postcondition
+        newName.assertSuccessfulRemove(this, i);
+        return newName;
     }
 
 
@@ -114,14 +129,14 @@ export class StringName extends AbstractName {
         return new StringName(this.name, this.getDelimiterCharacter());
     }
 
-    private getComponents(): string[] {
-        if (this.name === '') {
+    private getComponents(name: String = this.name): string[] {
+        if (name === '') {
             return [''];
         }
         let components: string[] = [''];
         let prevIsEscapeCharacter = false;
-        for (let i = 0; i < this.name.length; i++) {
-            const current = this.name.charAt(i);
+        for (let i = 0; i < name.length; i++) {
+            const current = name.charAt(i);
             if (prevIsEscapeCharacter) {
                 components[components.length - 1] += current;
                 prevIsEscapeCharacter = false;

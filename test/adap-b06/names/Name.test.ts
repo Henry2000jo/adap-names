@@ -570,7 +570,7 @@ describe("StringName insert i", () => {
     let n: Name = new StringName("oss.cs.fau.de");
     let n2: Name = new StringName("oss.cs.fau.de");
     expect(() => n.insert(0, "test")).not.toThrowError(IllegalArgumentException);
-    expect(() => n2.insert(4, "test")).not.toThrowError(MethodFailedException);
+    expect(() => n.insert(0, "test")).not.toThrowError(MethodFailedException);
     expect(() => n2.insert(4, "test")).not.toThrowError(IllegalArgumentException);
     expect(() => n2.insert(4, "test")).not.toThrowError(MethodFailedException);
   });
@@ -621,7 +621,7 @@ describe("StringArrayName insert i", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     let n2: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     expect(() => n.insert(0, "test")).not.toThrowError(IllegalArgumentException);
-    expect(() => n2.insert(4, "test")).not.toThrowError(MethodFailedException);
+    expect(() => n.insert(0, "test")).not.toThrowError(MethodFailedException);
     expect(() => n2.insert(4, "test")).not.toThrowError(IllegalArgumentException);
     expect(() => n2.insert(4, "test")).not.toThrowError(MethodFailedException);
   });
@@ -720,7 +720,7 @@ describe("StringName remove i", () => {
     let n: Name = new StringName("oss.cs.fau.de");
     let n2: Name = new StringName("oss.cs.fau.de");
     expect(() => n.remove(0)).not.toThrowError(IllegalArgumentException);
-    expect(() => n2.remove(3)).not.toThrowError(MethodFailedException);
+    expect(() => n.remove(0)).not.toThrowError(MethodFailedException);
     expect(() => n2.remove(3)).not.toThrowError(IllegalArgumentException);
     expect(() => n2.remove(3)).not.toThrowError(MethodFailedException);
   });
@@ -747,7 +747,7 @@ describe("StringArrayName remove i", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     let n2: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     expect(() => n.remove(0)).not.toThrowError(IllegalArgumentException);
-    expect(() => n2.remove(3)).not.toThrowError(MethodFailedException);
+    expect(() => n.remove(0)).not.toThrowError(MethodFailedException);
     expect(() => n2.remove(3)).not.toThrowError(IllegalArgumentException);
     expect(() => n2.remove(3)).not.toThrowError(MethodFailedException);
   });

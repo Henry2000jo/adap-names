@@ -18,15 +18,18 @@ export class StringArrayName extends AbstractName {
     constructor(other: string[], delimiter?: string) {
         super(delimiter);
 
+        // Precondition
         this.assertIsNotUndefined(other);
         for (let i = 0; i < other.length; i++) {
             this.assertIsValidComponent(other[i]);
         }
 
+        // Body
         for (let i = 0; i < other.length; i++) {
             this.components.push(other[i]);
         }
         
+        // Postcondition
         this.assertSuccessfulConstruction2(other);
     }
 
@@ -36,15 +39,19 @@ export class StringArrayName extends AbstractName {
     }
 
     public getComponent(i: number): string {
+        // Precondition
         this.assertIsValidIndex(i);
 
+        // Body
         return this.components[i];
     }
 
     public setComponent(i: number, c: string): StringArrayName {
+        // Precondition
         this.assertIsValidIndex(i, true);
         this.assertIsValidComponent(c);
 
+        // Body
         const newName = this.getDeepCopy();
         if (i === newName.getNoComponents()) {
             newName.components.push(c);
@@ -52,14 +59,17 @@ export class StringArrayName extends AbstractName {
             newName.components[i] = c;
         }
 
-        this.assertSuccessfulSetComponent(newName, i, c);
+        // Postcondition
+        newName.assertSuccessfulSetComponent(this, i, c);
         return newName;
     }
 
     public insert(i: number, c: string): StringArrayName {
+        // Precondition
         this.assertIsValidIndex(i, true);
         this.assertIsValidComponent(c);
 
+        // Body
         const newName = this.getDeepCopy();
         if (i === newName.getNoComponents()) {
             newName.components.push(c);
@@ -67,27 +77,34 @@ export class StringArrayName extends AbstractName {
             newName.components.splice(i, 0, c);
         }
 
-        this.assertSuccessfulInsert(newName, i, c);
+        // Postcondition
+        newName.assertSuccessfulInsert(this, i, c);
         return newName;
     }
 
     public append(c: string): StringArrayName {
+        // Precondition
         this.assertIsValidComponent(c);
 
+        // Body
         const newName = this.getDeepCopy();
         newName.components.push(c);
 
-        this.assertSuccessfulAppend(newName, c);
+        // Postcondition
+        newName.assertSuccessfulAppend(this, c);
         return newName;
     }
 
     public remove(i: number): StringArrayName {
+        // Precondition
         this.assertIsValidIndex(i);
 
+        // Body
         const newName = this.getDeepCopy();
         newName.components.splice(i, 1);
 
-        this.assertSuccessfulRemove(newName, i);
+        // Postcondition
+        newName.assertSuccessfulRemove(this, i);
         return newName;
     }
 

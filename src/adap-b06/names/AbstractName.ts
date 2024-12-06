@@ -16,27 +16,35 @@ export abstract class AbstractName implements Name {
 
 
     constructor(delimiter: string = DEFAULT_DELIMITER) {
+        // Precondition
         this.assertIsValidDelimiter(delimiter);
 
+        // Body
         this.delimiter = delimiter;
 
+        // Postcondition
         this.assertSuccessfulConstruction(delimiter);
     }
 
 
     public clone(): Name {
+        // Precondition
         this.assertClassInvariants();
         
+        // Body
         const clone = Object.create(Object.getPrototypeOf(this));
         const result = Object.assign(clone, this);
 
+        // Postcondition
         this.assertSuccessfulClone(result);
         return result;
     }
 
     public asString(delimiter: string = this.delimiter): string {
+        // Precondition
         this.assertIsValidDelimiter(delimiter);
 
+        // Body
         let nameString: string = '';
         for (let i = 0; i < this.getNoComponents(); i++) {
             let component: string = this.getComponent(i);
@@ -65,9 +73,14 @@ export abstract class AbstractName implements Name {
     }
 
     public isEqual(other: Name): boolean {
+        // Precondition
         this.assertIsNotUndefined(other);
 
+        // Body
         if (this.getNoComponents() !== other.getNoComponents()) {
+            return false;
+        }
+        if (this.getDelimiterCharacter() !== other.getDelimiterCharacter()) {
             return false;
         }
         for (let i = 0; i < this.getNoComponents(); i++) {
@@ -75,10 +88,8 @@ export abstract class AbstractName implements Name {
                 return false;
             }
         }
-        if (this.getDelimiterCharacter() !== other.getDelimiterCharacter()) {
-            return false;
-        }
-        
+
+        // Postcondition
         this.assertHashCodeIsEqual(other);
         return true;
     }
@@ -112,13 +123,16 @@ export abstract class AbstractName implements Name {
     abstract remove(i: number): Name;
 
     public concat(other: Name): Name {
+        // Precondition
         this.assertIsNotUndefined(other);
 
+        // Body
         let newName = this.getDeepCopy();
         for (let i = 0; i < other.getNoComponents(); i++) {
             newName = newName.append(other.getComponent(i));
         }
 
+        // Postcondition
         this.assertSuccessfulConcat(newName, other);
         return newName;
     }
@@ -280,73 +294,73 @@ export abstract class AbstractName implements Name {
 
     /* Assertion methods for postconditions for subclasses */
 
-    protected assertSuccessfulSetComponent(newName: AbstractName, i: number, c: string): void {
-        if (i === this.getNoComponents()) {
-            if (this.getNoComponents() + 1 !== newName.getNoComponents()) {
+    protected assertSuccessfulSetComponent(oldName: AbstractName, i: number, c: string): void {
+        if (i === oldName.getNoComponents()) {
+            if (oldName.getNoComponents() + 1 !== this.getNoComponents()) {
                 throw new MethodFailedException("setComponent failed");
             }
         } else {
-            if (this.getNoComponents() !== newName.getNoComponents()) {
+            if (oldName.getNoComponents() !== this.getNoComponents()) {
                 throw new MethodFailedException("setComponent failed");
             }
         }
-        if (newName.getComponent(i) !== c) {
+        if (this.getComponent(i) !== c) {
             throw new MethodFailedException("setComponent failed");
         }
-        for (let j = 0; j < this.getNoComponents(); j++) {
+        for (let j = 0; j < oldName.getNoComponents(); j++) {
             if (j === i) {
                 continue;
             }
-            if (this.getComponent(j) !== newName.getComponent(j)) {
+            if (oldName.getComponent(j) !== this.getComponent(j)) {
                 throw new MethodFailedException("setComponent failed");
             }
         }
     }
 
-    protected assertSuccessfulInsert(newName: AbstractName, i: number, c: string): void {
-        if (this.getNoComponents() + 1 !== newName.getNoComponents()) {
+    protected assertSuccessfulInsert(oldName: AbstractName, i: number, c: string): void {
+        if (oldName.getNoComponents() + 1 !== this.getNoComponents()) {
             throw new MethodFailedException("insert failed");
         }
         for (let j = 0; j < i; j++) {
-            if (this.getComponent(j) !== newName.getComponent(j)) {
+            if (oldName.getComponent(j) !== this.getComponent(j)) {
                 throw new MethodFailedException("insert failed");
             }
         }
-        if (newName.getComponent(i) !== c) {
+        if (this.getComponent(i) !== c) {
             throw new MethodFailedException("insert failed");
         }
-        for (let j = i; j < this.getNoComponents(); j++) {
-            if (this.getComponent(j) !== newName.getComponent(j + 1)) {
+        for (let j = i; j < oldName.getNoComponents(); j++) {
+            if (oldName.getComponent(j) !== this.getComponent(j + 1)) {
                 throw new MethodFailedException("insert failed");
             }
         }
     }
 
-    protected assertSuccessfulAppend(newName: AbstractName, c: string): void {
-        if (this.getNoComponents() + 1 !== newName.getNoComponents()) {
+    protected assertSuccessfulAppend(oldName: AbstractName, c: string): void {
+        if (oldName.getNoComponents() + 1 !== this.getNoComponents()) {
             throw new MethodFailedException("append failed");
         }
-        for (let j = 0; j < this.getNoComponents(); j++) {
-            if (this.getComponent(j) !== newName.getComponent(j)) {
+        for (let j = 0; j < oldName.getNoComponents(); j++) {
+            if (oldName.getComponent(j) !== this.getComponent(j)) {
                 throw new MethodFailedException("append failed");
             }
         }
-        if (newName.getComponent(newName.getNoComponents() - 1) !== c) {
+        if (this.getComponent(this.getNoComponents() - 1) !== c) {
             throw new MethodFailedException("append failed");
         }
     }
 
-    protected assertSuccessfulRemove(newName: AbstractName, i: number): void {
-        if (this.getNoComponents() - 1 !== newName.getNoComponents()) {
+    protected assertSuccessfulRemove(oldName: AbstractName, i: number): void {
+        if (oldName.getNoComponents() - 1 !== this.getNoComponents()) {
             throw new MethodFailedException("remove failed");
         }
         for (let j = 0; j < i; j++) {
-            if (this.getComponent(j) !== newName.getComponent(j)) {
+            if (oldName.getComponent(j) !== this.getComponent(j)) {
                 throw new MethodFailedException("remove failed");
             }
         }
-        for (let j = i + 1; j < this.getNoComponents(); j++) {
-            if (this.getComponent(j) !== newName.getComponent(j - 1)) {
+        for (let j = i + 1; j < oldName.getNoComponents(); j++) {
+            if (oldName.getComponent(j) !== this.getComponent(j - 1)) {
                 throw new MethodFailedException("remove failed");
             }
         }
