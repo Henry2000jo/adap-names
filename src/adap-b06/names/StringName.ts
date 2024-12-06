@@ -32,6 +32,7 @@ export class StringName extends AbstractName {
         
         // Postcondition
         this.assertSuccessfulConstruction2(other);
+        this.assertClassInvariants();
     }
 
 
@@ -66,6 +67,8 @@ export class StringName extends AbstractName {
 
         // Postcondition
         newName.assertSuccessfulSetComponent(this, i, c);
+        this.assertClassInvariants();
+        newName.assertClassInvariants();
         return newName;
 
     }
@@ -89,6 +92,8 @@ export class StringName extends AbstractName {
 
         // Postcondition
         newName.assertSuccessfulInsert(this, i, c);
+        this.assertClassInvariants();
+        newName.assertClassInvariants();
         return newName;
     }
 
@@ -103,6 +108,8 @@ export class StringName extends AbstractName {
 
         // Postcondition
         newName.assertSuccessfulAppend(this, c);
+        this.assertClassInvariants();
+        newName.assertClassInvariants();
         return newName;
     }
 
@@ -119,6 +126,8 @@ export class StringName extends AbstractName {
 
         // Postcondition
         newName.assertSuccessfulRemove(this, i);
+        this.assertClassInvariants();
+        newName.assertClassInvariants();
         return newName;
     }
 
@@ -158,8 +167,8 @@ export class StringName extends AbstractName {
     /* Assertion methods for class invariants */
 
     protected assertHasValidNoComponents(): void {
-        const newName = new StringName(this.name, this.getDelimiterCharacter());
-        InvalidStateException.assert(this.noComponents === newName.getNoComponents(), "invalid number of components");
+        const components = this.getComponents();
+        InvalidStateException.assert(this.noComponents === components.length, "invalid number of components");
     }
 
 

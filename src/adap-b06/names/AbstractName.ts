@@ -37,6 +37,8 @@ export abstract class AbstractName implements Name {
 
         // Postcondition
         this.assertSuccessfulClone(result);
+        this.assertClassInvariants();
+        result.assertClassInvariants();
         return result;
     }
 
@@ -125,6 +127,7 @@ export abstract class AbstractName implements Name {
     public concat(other: Name): Name {
         // Precondition
         this.assertIsNotUndefined(other);
+        // Kein Fehler bei unterschiedlichen Delimiter-Zeichen -> this Delimiter wird verwendet
 
         // Body
         let newName = this.getDeepCopy();
@@ -134,6 +137,13 @@ export abstract class AbstractName implements Name {
 
         // Postcondition
         this.assertSuccessfulConcat(newName, other);
+        this.assertClassInvariants();
+        if (newName instanceof AbstractName) {
+            newName.assertClassInvariants();
+        }
+        if (other instanceof AbstractName) {
+            other.assertClassInvariants();
+        }
         return newName;
     }
 

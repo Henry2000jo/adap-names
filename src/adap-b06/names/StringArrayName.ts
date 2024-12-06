@@ -31,6 +31,7 @@ export class StringArrayName extends AbstractName {
         
         // Postcondition
         this.assertSuccessfulConstruction2(other);
+        this.assertClassInvariants();
     }
 
 
@@ -61,6 +62,8 @@ export class StringArrayName extends AbstractName {
 
         // Postcondition
         newName.assertSuccessfulSetComponent(this, i, c);
+        this.assertClassInvariants();
+        newName.assertClassInvariants();
         return newName;
     }
 
@@ -79,6 +82,8 @@ export class StringArrayName extends AbstractName {
 
         // Postcondition
         newName.assertSuccessfulInsert(this, i, c);
+        this.assertClassInvariants();
+        newName.assertClassInvariants();
         return newName;
     }
 
@@ -92,6 +97,8 @@ export class StringArrayName extends AbstractName {
 
         // Postcondition
         newName.assertSuccessfulAppend(this, c);
+        this.assertClassInvariants();
+        newName.assertClassInvariants();
         return newName;
     }
 
@@ -105,6 +112,8 @@ export class StringArrayName extends AbstractName {
 
         // Postcondition
         newName.assertSuccessfulRemove(this, i);
+        this.assertClassInvariants();
+        newName.assertClassInvariants();
         return newName;
     }
 
