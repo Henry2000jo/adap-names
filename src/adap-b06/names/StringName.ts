@@ -30,7 +30,7 @@ export class StringName extends AbstractName {
         this.name = other;
         this.noComponents = components.length;
         
-        // Postcondition
+        // Postcondition & Class Invariant
         this.assertSuccessfulConstruction2(other);
         this.assertClassInvariants();
     }
@@ -55,6 +55,7 @@ export class StringName extends AbstractName {
         this.assertIsValidComponent(c);
 
         // Body
+        const savedName = this.getDeepCopy();
         const newName = this.getDeepCopy();
         if (i === newName.noComponents) {
             newName.name += newName.getDelimiterCharacter() + c;
@@ -65,10 +66,11 @@ export class StringName extends AbstractName {
             newName.name = components.join(newName.getDelimiterCharacter());
         }
 
-        // Postcondition
+        // Postcondition & Class Invariant
         newName.assertSuccessfulSetComponent(this, i, c);
         this.assertClassInvariants();
         newName.assertClassInvariants();
+        this.assertStateDidNotChange(savedName);
         return newName;
 
     }
@@ -79,6 +81,7 @@ export class StringName extends AbstractName {
         this.assertIsValidComponent(c);
 
         // Body
+        const savedName = this.getDeepCopy();
         const newName = this.getDeepCopy();
         if (i === newName.noComponents) {
             newName.name += newName.getDelimiterCharacter() + c;
@@ -90,10 +93,11 @@ export class StringName extends AbstractName {
             newName.noComponents++;
         }
 
-        // Postcondition
+        // Postcondition & Class Invariant
         newName.assertSuccessfulInsert(this, i, c);
         this.assertClassInvariants();
         newName.assertClassInvariants();
+        this.assertStateDidNotChange(savedName);
         return newName;
     }
 
@@ -102,14 +106,16 @@ export class StringName extends AbstractName {
         this.assertIsValidComponent(c);
 
         // Body
+        const savedName = this.getDeepCopy();
         const newName = this.getDeepCopy();
         newName.name += newName.getDelimiterCharacter() + c;
         newName.noComponents++;
 
-        // Postcondition
+        // Postcondition & Class Invariant
         newName.assertSuccessfulAppend(this, c);
         this.assertClassInvariants();
         newName.assertClassInvariants();
+        this.assertStateDidNotChange(savedName);
         return newName;
     }
 
@@ -118,16 +124,18 @@ export class StringName extends AbstractName {
         this.assertIsValidIndex(i);
         
         // Body
+        const savedName = this.getDeepCopy();
         const newName = this.getDeepCopy();
         const components = newName.getComponents();
         components.splice(i, 1);
         newName.name = components.join(newName.getDelimiterCharacter());
         newName.noComponents--;
 
-        // Postcondition
+        // Postcondition & Class Invariant
         newName.assertSuccessfulRemove(this, i);
         this.assertClassInvariants();
         newName.assertClassInvariants();
+        this.assertStateDidNotChange(savedName);
         return newName;
     }
 

@@ -6,6 +6,7 @@ import { StringArrayName } from "../../../src/adap-b06/names/StringArrayName";
 import { IllegalArgumentException } from "../../../src/adap-b06/common/IllegalArgumentException";
 import { ESCAPE_CHARACTER } from "../../../src/adap-b06/common/Printable";
 import { MethodFailedException } from "../../../src/adap-b06/common/MethodFailedException";
+import { InvalidStateException } from "../../../src/adap-b06/common/InvalidStateException";
 import exp from "constants";
 
 
@@ -215,23 +216,28 @@ describe("StringName constructor delimiter", () => {
   it("delimiter is correct", () => {
     expect(() => new StringName("oss.cs.fau.de", 'q')).not.toThrowError(IllegalArgumentException);
     expect(() => new StringName("oss.cs.fau.de", 'q')).not.toThrowError(MethodFailedException);
+    expect(() => new StringName("oss.cs.fau.de", 'q')).not.toThrowError(InvalidStateException);
   });
   // kein Error weil delimiter default hat
   it("delimiter is undefined", () => {
     expect(() => new StringName("oss.cs.fau.de", undefined)).not.toThrowError(IllegalArgumentException);
     expect(() => new StringName("oss.cs.fau.de", undefined)).not.toThrowError(MethodFailedException);
+    expect(() => new StringName("oss.cs.fau.de", undefined)).not.toThrowError(InvalidStateException);
   });
   it("delimiter is empty", () => {
     expect(() => new StringName("oss.cs.fau.de", '')).toThrowError(IllegalArgumentException);
     expect(() => new StringName("oss.cs.fau.de", '')).not.toThrowError(MethodFailedException);
+    expect(() => new StringName("oss.cs.fau.de", '')).not.toThrowError(InvalidStateException);
   });
   it("delimiter is not a character", () => {
     expect(() => new StringName("oss.cs.fau.de", 'ab')).toThrowError(IllegalArgumentException);
     expect(() => new StringName("oss.cs.fau.de", 'ab')).not.toThrowError(MethodFailedException);
+    expect(() => new StringName("oss.cs.fau.de", 'ab')).not.toThrowError(InvalidStateException);
   });
   it("delimiter is escape character", () => {
     expect(() => new StringName("oss.cs.fau.de", ESCAPE_CHARACTER)).toThrowError(IllegalArgumentException);
     expect(() => new StringName("oss.cs.fau.de", ESCAPE_CHARACTER)).not.toThrowError(MethodFailedException);
+    expect(() => new StringName("oss.cs.fau.de", ESCAPE_CHARACTER)).not.toThrowError(InvalidStateException);
   });
 });
 
@@ -239,23 +245,28 @@ describe("StringArrayName constructor delimiter", () => {
   it("delimiter is correct", () => {
     expect(() => new StringArrayName(["oss", "cs", "fau", "de"], '-')).not.toThrowError(IllegalArgumentException);
     expect(() => new StringArrayName(["oss", "cs", "fau", "de"], '-')).not.toThrowError(MethodFailedException);
+    expect(() => new StringArrayName(["oss", "cs", "fau", "de"], '-')).not.toThrowError(InvalidStateException);
   });
   // kein Error weil delimiter default hat
   it("delimiter is undefined", () => {
     expect(() => new StringArrayName(["oss", "cs", "fau", "de"], undefined)).not.toThrowError(IllegalArgumentException);
     expect(() => new StringArrayName(["oss", "cs", "fau", "de"], undefined)).not.toThrowError(MethodFailedException);
+    expect(() => new StringArrayName(["oss", "cs", "fau", "de"], undefined)).not.toThrowError(InvalidStateException);
   });
   it("delimiter is empty", () => {
     expect(() => new StringArrayName(["oss", "cs", "fau", "de"], '')).toThrowError(IllegalArgumentException);
     expect(() => new StringArrayName(["oss", "cs", "fau", "de"], '')).not.toThrowError(MethodFailedException);
+    expect(() => new StringArrayName(["oss", "cs", "fau", "de"], '')).not.toThrowError(InvalidStateException);
   });
   it("delimiter is not a character", () => {
     expect(() => new StringArrayName(["oss", "cs", "fau", "de"], '.,')).toThrowError(IllegalArgumentException);
     expect(() => new StringArrayName(["oss", "cs", "fau", "de"], '.,')).not.toThrowError(MethodFailedException);
+    expect(() => new StringArrayName(["oss", "cs", "fau", "de"], '.,')).not.toThrowError(InvalidStateException);
   });
   it("delimiter is escape character", () => {
     expect(() => new StringArrayName(["oss", "cs", "fau", "de"], ESCAPE_CHARACTER)).toThrowError(IllegalArgumentException);
     expect(() => new StringArrayName(["oss", "cs", "fau", "de"], ESCAPE_CHARACTER)).not.toThrowError(MethodFailedException);
+    expect(() => new StringArrayName(["oss", "cs", "fau", "de"], ESCAPE_CHARACTER)).not.toThrowError(InvalidStateException);
   });
 });
 
@@ -264,27 +275,32 @@ describe("StringName asString delimiter", () => {
     let n: Name = new StringName("oss.cs.fau.de", '.');
     expect(() => n.asString(',')).not.toThrowError(IllegalArgumentException);
     expect(() => n.asString(',')).not.toThrowError(MethodFailedException);
+    expect(() => n.asString(',')).not.toThrowError(InvalidStateException);
   });
   // kein Error weil delimiter default hat
   it("delimiter is undefined", () => {
     let n: Name = new StringName("oss.cs.fau.de", '.');
     expect(() => n.asString(undefined)).not.toThrowError(IllegalArgumentException);
     expect(() => n.asString(undefined)).not.toThrowError(MethodFailedException);
+    expect(() => n.asString(undefined)).not.toThrowError(InvalidStateException);
   });
   it("delimiter is empty", () => {
     let n: Name = new StringName("oss.cs.fau.de", '.');
     expect(() => n.asString('')).toThrowError(IllegalArgumentException);
     expect(() => n.asString('')).not.toThrowError(MethodFailedException);
+    expect(() => n.asString('')).not.toThrowError(InvalidStateException);
   });
   it("delimiter is not a character", () => {
     let n: Name = new StringName("oss.cs.fau.de", '.');
     expect(() => n.asString('e.')).toThrowError(IllegalArgumentException);
     expect(() => n.asString('e.')).not.toThrowError(MethodFailedException);
+    expect(() => n.asString('e.')).not.toThrowError(InvalidStateException);
   });
   it("delimiter is escape character", () => {
     let n: Name = new StringName("oss.cs.fau.de", '.');
     expect(() => n.asString(ESCAPE_CHARACTER)).toThrowError(IllegalArgumentException);
     expect(() => n.asString(ESCAPE_CHARACTER)).not.toThrowError(MethodFailedException);
+    expect(() => n.asString(ESCAPE_CHARACTER)).not.toThrowError(InvalidStateException);
   });
 });
 
@@ -293,27 +309,32 @@ describe("StringArrayName asString delimiter", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"], '-');
     expect(() => n.asString('-')).not.toThrowError(IllegalArgumentException);
     expect(() => n.asString('-')).not.toThrowError(MethodFailedException);
+    expect(() => n.asString('-')).not.toThrowError(InvalidStateException);
   });
   // kein Error weil delimiter default hat
   it("delimiter is undefined", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"], '-');
     expect(() => n.asString(undefined)).not.toThrowError(IllegalArgumentException);
     expect(() => n.asString(undefined)).not.toThrowError(MethodFailedException);
+    expect(() => n.asString(undefined)).not.toThrowError(InvalidStateException);
   });
   it("delimiter is empty", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"], '-');
     expect(() => n.asString('')).toThrowError(IllegalArgumentException);
     expect(() => n.asString('')).not.toThrowError(MethodFailedException);
+    expect(() => n.asString('')).not.toThrowError(InvalidStateException);
   });
   it("delimiter is not a character", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"], '-');
     expect(() => n.asString('öä')).toThrowError(IllegalArgumentException);
     expect(() => n.asString('öä')).not.toThrowError(MethodFailedException);
+    expect(() => n.asString('öä')).not.toThrowError(InvalidStateException);
   });
   it("delimiter is escape character", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"], '-');
     expect(() => n.asString(ESCAPE_CHARACTER)).toThrowError(IllegalArgumentException);
     expect(() => n.asString(ESCAPE_CHARACTER)).not.toThrowError(MethodFailedException);
+    expect(() => n.asString(ESCAPE_CHARACTER)).not.toThrowError(InvalidStateException);
   });
 });
 
@@ -323,12 +344,14 @@ describe("StringName isEqual other", () => {
     let n2: Name = new StringName("oss.cs.fau.deeeeee");
     expect(() => n.isEqual(n2)).not.toThrowError(IllegalArgumentException);
     expect(() => n.isEqual(n2)).not.toThrowError(MethodFailedException);
+    expect(() => n.isEqual(n2)).not.toThrowError(InvalidStateException);
   });
   it("other is undefined", () => {
     let n: Name = new StringName("oss.cs.fau.de");
     let n2: Name;
     expect(() => n.isEqual(n2)).toThrowError(IllegalArgumentException);
     expect(() => n.isEqual(n2)).not.toThrowError(MethodFailedException);
+    expect(() => n.isEqual(n2)).not.toThrowError(InvalidStateException);
   });
 });
 
@@ -338,12 +361,14 @@ describe("StringArrayName isEqual other", () => {
     let n2: Name = new StringArrayName(["oss", "cs", "fau", "deeee"]);
     expect(() => n.isEqual(n2)).not.toThrowError(IllegalArgumentException);
     expect(() => n.isEqual(n2)).not.toThrowError(MethodFailedException);
+    expect(() => n.isEqual(n2)).not.toThrowError(InvalidStateException);
   });
   it("other is undefined", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     let n2: Name;
     expect(() => n.isEqual(n2)).toThrowError(IllegalArgumentException);
     expect(() => n.isEqual(n2)).not.toThrowError(MethodFailedException);
+    expect(() => n.isEqual(n2)).not.toThrowError(InvalidStateException);
   });
 });
 
@@ -353,12 +378,14 @@ describe("StringName concat other", () => {
     let n2: Name = new StringName("oss.cs.fau.deeeeee", '.');
     expect(() => n.concat(n2)).not.toThrowError(IllegalArgumentException);
     expect(() => n.concat(n2)).not.toThrowError(MethodFailedException);
+    expect(() => n.concat(n2)).not.toThrowError(InvalidStateException);
   });
   it("other is undefined", () => {
     let n: Name = new StringName("oss.cs.fau.de");
     let n2: Name;
     expect(() => n.concat(n2)).toThrowError(IllegalArgumentException);
     expect(() => n.concat(n2)).not.toThrowError(MethodFailedException);
+    expect(() => n.concat(n2)).not.toThrowError(InvalidStateException);
   });
 });
 
@@ -368,12 +395,14 @@ describe("StringArrayName concat other", () => {
     let n2: Name = new StringArrayName(["oss", "cs", "fau", "deeee"]);
     expect(() => n.concat(n2)).not.toThrowError(IllegalArgumentException);
     expect(() => n.concat(n2)).not.toThrowError(MethodFailedException);
+    expect(() => n.concat(n2)).not.toThrowError(InvalidStateException);
   });
   it("other is undefined", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     let n2: Name;
     expect(() => n.concat(n2)).toThrowError(IllegalArgumentException);
     expect(() => n.concat(n2)).not.toThrowError(MethodFailedException);
+    expect(() => n.concat(n2)).not.toThrowError(InvalidStateException);
   });
 });
 
@@ -381,15 +410,18 @@ describe("StringName constructor other", () => {
   it("other is correct", () => {
     expect(() => new StringName("oss.cs.fau.de", '.')).not.toThrowError(IllegalArgumentException);
     expect(() => new StringName("oss.cs.fau.de", '.')).not.toThrowError(MethodFailedException);
+    expect(() => new StringName("oss.cs.fau.de", '.')).not.toThrowError(InvalidStateException);
   });
   it("other is undefined", () => {
     let other: string;
     expect(() => new StringName(other)).toThrowError(IllegalArgumentException);
     expect(() => new StringName(other)).not.toThrowError(MethodFailedException);
+    expect(() => new StringName(other)).not.toThrowError(InvalidStateException);
   });
   it("other component empty", () => {
     expect(() => new StringName(".l")).not.toThrowError(IllegalArgumentException);
     expect(() => new StringName(".l")).not.toThrowError(MethodFailedException);
+    expect(() => new StringName(".l")).not.toThrowError(InvalidStateException);
   });
 });
 
@@ -397,19 +429,23 @@ describe("StringArrayName constructor other", () => {
   it("other is correct", () => {
     expect(() => new StringArrayName(["oss", "cs", "fau", "de"], '.')).not.toThrowError(IllegalArgumentException);
     expect(() => new StringArrayName(["oss", "cs", "fau", "de"], '.')).not.toThrowError(MethodFailedException);
+    expect(() => new StringArrayName(["oss", "cs", "fau", "de"], '.')).not.toThrowError(InvalidStateException);
   });
   it("other is undefined", () => {
     let other: string[];
     expect(() => new StringArrayName(other)).toThrowError(IllegalArgumentException);
     expect(() => new StringArrayName(other)).not.toThrowError(MethodFailedException);
+    expect(() => new StringArrayName(other)).not.toThrowError(InvalidStateException);
   });
   it("other component empty", () => {
     expect(() => new StringArrayName(["", "cs", "fau", "de"])).not.toThrowError(IllegalArgumentException);
     expect(() => new StringArrayName(["", "cs", "fau", "de"])).not.toThrowError(MethodFailedException);
+    expect(() => new StringArrayName(["", "cs", "fau", "de"])).not.toThrowError(InvalidStateException);
   });
   it("other component not masked", () => {
     expect(() => new StringArrayName(["oss", "cs", "fau", "de."])).toThrowError(IllegalArgumentException);
     expect(() => new StringArrayName(["oss", "cs", "fau", "de."])).not.toThrowError(MethodFailedException);
+    expect(() => new StringArrayName(["oss", "cs", "fau", "de."])).not.toThrowError(InvalidStateException);
   });
 });
 
@@ -418,24 +454,29 @@ describe("StringName getComponent i", () => {
     let n: Name = new StringName("oss.cs.fau.de");
     expect(() => n.getComponent(0)).not.toThrowError(IllegalArgumentException);
     expect(() => n.getComponent(0)).not.toThrowError(MethodFailedException);
+    expect(() => n.getComponent(0)).not.toThrowError(InvalidStateException);
     expect(() => n.getComponent(3)).not.toThrowError(IllegalArgumentException);
     expect(() => n.getComponent(3)).not.toThrowError(MethodFailedException);
+    expect(() => n.getComponent(3)).not.toThrowError(InvalidStateException);
   });
   it("i is undefined", () => {
     let n: Name = new StringName("oss.cs.fau.de");
     let i: number;
     expect(() => n.getComponent(i)).toThrowError(IllegalArgumentException);
     expect(() => n.getComponent(i)).not.toThrowError(MethodFailedException);
+    expect(() => n.getComponent(i)).not.toThrowError(InvalidStateException);
   });
   it("i is negative", () => {
     let n: Name = new StringName("oss.cs.fau.de");
     expect(() => n.getComponent(-1)).toThrowError(IllegalArgumentException);
     expect(() => n.getComponent(-1)).not.toThrowError(MethodFailedException);
+    expect(() => n.getComponent(-1)).not.toThrowError(InvalidStateException);
   });
   it("i is too large", () => {
     let n: Name = new StringName("oss.cs.fau.de");
     expect(() => n.getComponent(4)).toThrowError(IllegalArgumentException);
     expect(() => n.getComponent(4)).not.toThrowError(MethodFailedException);
+    expect(() => n.getComponent(4)).not.toThrowError(InvalidStateException);
   });
 });
 
@@ -444,24 +485,29 @@ describe("StringArrayName getComponent i", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     expect(() => n.getComponent(0)).not.toThrowError(IllegalArgumentException);
     expect(() => n.getComponent(0)).not.toThrowError(MethodFailedException);
+    expect(() => n.getComponent(0)).not.toThrowError(InvalidStateException);
     expect(() => n.getComponent(3)).not.toThrowError(IllegalArgumentException);
     expect(() => n.getComponent(3)).not.toThrowError(MethodFailedException);
+    expect(() => n.getComponent(3)).not.toThrowError(InvalidStateException);
   });
   it("i is undefined", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     let i: number;
     expect(() => n.getComponent(i)).toThrowError(IllegalArgumentException);
     expect(() => n.getComponent(i)).not.toThrowError(MethodFailedException);
+    expect(() => n.getComponent(i)).not.toThrowError(InvalidStateException);
   });
   it("i is negative", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     expect(() => n.getComponent(-1)).toThrowError(IllegalArgumentException);
     expect(() => n.getComponent(-1)).not.toThrowError(MethodFailedException);
+    expect(() => n.getComponent(-1)).not.toThrowError(InvalidStateException);
   });
   it("i is too large", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     expect(() => n.getComponent(4)).toThrowError(IllegalArgumentException);
     expect(() => n.getComponent(4)).not.toThrowError(MethodFailedException);
+    expect(() => n.getComponent(4)).not.toThrowError(InvalidStateException);
   });
 });
 
@@ -470,24 +516,29 @@ describe("StringName setComponent i", () => {
     let n: Name = new StringName("oss.cs.fau.de");
     expect(() => n.setComponent(0, "test")).not.toThrowError(IllegalArgumentException);
     expect(() => n.setComponent(0, "test")).not.toThrowError(MethodFailedException);
+    expect(() => n.setComponent(0, "test")).not.toThrowError(InvalidStateException);
     expect(() => n.setComponent(4, "test")).not.toThrowError(IllegalArgumentException);
     expect(() => n.setComponent(4, "test")).not.toThrowError(MethodFailedException);
+    expect(() => n.setComponent(4, "test")).not.toThrowError(InvalidStateException);
   });
   it("i is undefined", () => {
     let n: Name = new StringName("oss.cs.fau.de");
     let i: number;
     expect(() => n.setComponent(i, "test")).toThrowError(IllegalArgumentException);
     expect(() => n.setComponent(i, "test")).not.toThrowError(MethodFailedException);
+    expect(() => n.setComponent(i, "test")).not.toThrowError(InvalidStateException);
   });
   it("i is negative", () => {
     let n: Name = new StringName("oss.cs.fau.de");
     expect(() => n.setComponent(-1, "test")).toThrowError(IllegalArgumentException);
     expect(() => n.setComponent(-1, "test")).not.toThrowError(MethodFailedException);
+    expect(() => n.setComponent(-1, "test")).not.toThrowError(InvalidStateException);
   });
   it("i is too large", () => {
     let n: Name = new StringName("oss.cs.fau.de");
     expect(() => n.setComponent(5, "test")).toThrowError(IllegalArgumentException);
     expect(() => n.setComponent(5, "test")).not.toThrowError(MethodFailedException);
+    expect(() => n.setComponent(5, "test")).not.toThrowError(InvalidStateException);
   });
 });
 
@@ -496,22 +547,26 @@ describe("StringName setComponent c", () => {
     let n: Name = new StringName("oss.cs.fau.de");
     expect(() => n.setComponent(0, "test")).not.toThrowError(IllegalArgumentException);
     expect(() => n.setComponent(0, "test")).not.toThrowError(MethodFailedException);
+    expect(() => n.setComponent(0, "test")).not.toThrowError(InvalidStateException);
   });
   it("c is undefined", () => {
     let n: Name = new StringName("oss.cs.fau.de");
     let c: string;
     expect(() => n.setComponent(0, c)).toThrowError(IllegalArgumentException);
     expect(() => n.setComponent(0, c)).not.toThrowError(MethodFailedException);
+    expect(() => n.setComponent(0, c)).not.toThrowError(InvalidStateException);
   });
   it("c is empty", () => {
     let n: Name = new StringName("oss.cs.fau.de");
     expect(() => n.setComponent(0, "")).not.toThrowError(IllegalArgumentException);
     expect(() => n.setComponent(0, "")).not.toThrowError(MethodFailedException);
+    expect(() => n.setComponent(0, "")).not.toThrowError(InvalidStateException);
   });
   it("c is not masked", () => {
     let n: Name = new StringName("oss.cs.fau.de");
     expect(() => n.setComponent(0, "test.")).toThrowError(IllegalArgumentException);
     expect(() => n.setComponent(0, "test.")).not.toThrowError(MethodFailedException);
+    expect(() => n.setComponent(0, "test.")).not.toThrowError(InvalidStateException);
   });
 });
 
@@ -520,24 +575,29 @@ describe("StringArrayName setComponent i", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     expect(() => n.setComponent(0, "test")).not.toThrowError(IllegalArgumentException);
     expect(() => n.setComponent(0, "test")).not.toThrowError(MethodFailedException);
+    expect(() => n.setComponent(0, "test")).not.toThrowError(InvalidStateException);
     expect(() => n.setComponent(4, "test")).not.toThrowError(IllegalArgumentException);
     expect(() => n.setComponent(4, "test")).not.toThrowError(MethodFailedException);
+    expect(() => n.setComponent(4, "test")).not.toThrowError(InvalidStateException);
   });
   it("i is undefined", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     let i: number;
     expect(() => n.setComponent(i, "test")).toThrowError(IllegalArgumentException);
     expect(() => n.setComponent(i, "test")).not.toThrowError(MethodFailedException);
+    expect(() => n.setComponent(i, "test")).not.toThrowError(InvalidStateException);
   });
   it("i is negative", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     expect(() => n.setComponent(-1, "test")).toThrowError(IllegalArgumentException);
     expect(() => n.setComponent(-1, "test")).not.toThrowError(MethodFailedException);
+    expect(() => n.setComponent(-1, "test")).not.toThrowError(InvalidStateException);
   });
   it("i is too large", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     expect(() => n.setComponent(5, "test")).toThrowError(IllegalArgumentException);
     expect(() => n.setComponent(5, "test")).not.toThrowError(MethodFailedException);
+    expect(() => n.setComponent(5, "test")).not.toThrowError(InvalidStateException);
   });
 });
 
@@ -546,22 +606,26 @@ describe("StringArrayName setComponent c", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     expect(() => n.setComponent(0, "test")).not.toThrowError(IllegalArgumentException);
     expect(() => n.setComponent(0, "test")).not.toThrowError(MethodFailedException);
+    expect(() => n.setComponent(0, "test")).not.toThrowError(InvalidStateException);
   });
   it("c is undefined", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     let c: string;
     expect(() => n.setComponent(0, c)).toThrowError(IllegalArgumentException);
     expect(() => n.setComponent(0, c)).not.toThrowError(MethodFailedException);
+    expect(() => n.setComponent(0, c)).not.toThrowError(InvalidStateException);
   });
   it("c is empty", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     expect(() => n.setComponent(0, "")).not.toThrowError(IllegalArgumentException);
     expect(() => n.setComponent(0, "")).not.toThrowError(MethodFailedException);
+    expect(() => n.setComponent(0, "")).not.toThrowError(InvalidStateException);
   });
   it("c is not masked", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     expect(() => n.setComponent(0, "test.")).toThrowError(IllegalArgumentException);
     expect(() => n.setComponent(0, "test.")).not.toThrowError(MethodFailedException);
+    expect(() => n.setComponent(0, "test.")).not.toThrowError(InvalidStateException);
   });
 });
 
@@ -571,24 +635,29 @@ describe("StringName insert i", () => {
     let n2: Name = new StringName("oss.cs.fau.de");
     expect(() => n.insert(0, "test")).not.toThrowError(IllegalArgumentException);
     expect(() => n.insert(0, "test")).not.toThrowError(MethodFailedException);
+    expect(() => n2.insert(0, "test")).not.toThrowError(InvalidStateException);
     expect(() => n2.insert(4, "test")).not.toThrowError(IllegalArgumentException);
     expect(() => n2.insert(4, "test")).not.toThrowError(MethodFailedException);
+    expect(() => n2.insert(4, "test")).not.toThrowError(InvalidStateException);
   });
   it("i is undefined", () => {
     let n: Name = new StringName("oss.cs.fau.de");
     let i: number;
     expect(() => n.insert(i, "test")).toThrowError(IllegalArgumentException);
     expect(() => n.insert(i, "test")).not.toThrowError(MethodFailedException);
+    expect(() => n.insert(i, "test")).not.toThrowError(InvalidStateException);
   });
   it("i is negative", () => {
     let n: Name = new StringName("oss.cs.fau.de");
     expect(() => n.insert(-1, "test")).toThrowError(IllegalArgumentException);
     expect(() => n.insert(-1, "test")).not.toThrowError(MethodFailedException);
+    expect(() => n.insert(-1, "test")).not.toThrowError(InvalidStateException);
   });
   it("i is too large", () => {
     let n: Name = new StringName("oss.cs.fau.de");
     expect(() => n.insert(5, "test")).toThrowError(IllegalArgumentException);
     expect(() => n.insert(5, "test")).not.toThrowError(MethodFailedException);
+    expect(() => n.insert(5, "test")).not.toThrowError(InvalidStateException);
   });
 });
 
@@ -597,22 +666,26 @@ describe("StringName insert c", () => {
     let n: Name = new StringName("oss.cs.fau.de");
     expect(() => n.insert(0, "test")).not.toThrowError(IllegalArgumentException);
     expect(() => n.insert(0, "test")).not.toThrowError(MethodFailedException);
+    expect(() => n.insert(0, "test")).not.toThrowError(InvalidStateException);
   });
   it("c is undefined", () => {
     let n: Name = new StringName("oss.cs.fau.de");
     let c: string;
     expect(() => n.insert(0, c)).toThrowError(IllegalArgumentException);
     expect(() => n.insert(0, c)).not.toThrowError(MethodFailedException);
+    expect(() => n.insert(0, c)).not.toThrowError(InvalidStateException);
   });
   it("c is empty", () => {
     let n: Name = new StringName("oss.cs.fau.de");
     expect(() => n.insert(0, "")).not.toThrowError(IllegalArgumentException);
     expect(() => n.insert(0, "")).not.toThrowError(MethodFailedException);
+    expect(() => n.insert(0, "")).not.toThrowError(InvalidStateException);
   });
   it("c is not masked", () => {
     let n: Name = new StringName("oss.cs.fau.de");
     expect(() => n.insert(0, "test.")).toThrowError(IllegalArgumentException);
     expect(() => n.insert(0, "test.")).not.toThrowError(MethodFailedException);
+    expect(() => n.insert(0, "test.")).not.toThrowError(InvalidStateException);
   });
 });
 
@@ -622,24 +695,29 @@ describe("StringArrayName insert i", () => {
     let n2: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     expect(() => n.insert(0, "test")).not.toThrowError(IllegalArgumentException);
     expect(() => n.insert(0, "test")).not.toThrowError(MethodFailedException);
+    expect(() => n2.insert(0, "test")).not.toThrowError(InvalidStateException);
     expect(() => n2.insert(4, "test")).not.toThrowError(IllegalArgumentException);
     expect(() => n2.insert(4, "test")).not.toThrowError(MethodFailedException);
+    expect(() => n2.insert(4, "test")).not.toThrowError(InvalidStateException);
   });
   it("i is undefined", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     let i: number;
     expect(() => n.insert(i, "test")).toThrowError(IllegalArgumentException);
     expect(() => n.insert(i, "test")).not.toThrowError(MethodFailedException);
+    expect(() => n.insert(i, "test")).not.toThrowError(InvalidStateException);
   });
   it("i is negative", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     expect(() => n.insert(-1, "test")).toThrowError(IllegalArgumentException);
     expect(() => n.insert(-1, "test")).not.toThrowError(MethodFailedException);
+    expect(() => n.insert(-1, "test")).not.toThrowError(InvalidStateException);
   });
   it("i is too large", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     expect(() => n.insert(5, "test")).toThrowError(IllegalArgumentException);
     expect(() => n.insert(5, "test")).not.toThrowError(MethodFailedException);
+    expect(() => n.insert(5, "test")).not.toThrowError(InvalidStateException);
   });
 });
 
@@ -648,22 +726,26 @@ describe("StringArrayName insert c", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     expect(() => n.insert(0, "test")).not.toThrowError(IllegalArgumentException);
     expect(() => n.insert(0, "test")).not.toThrowError(MethodFailedException);
+    expect(() => n.insert(0, "test")).not.toThrowError(InvalidStateException);
   });
   it("c is undefined", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     let c: string;
     expect(() => n.insert(0, c)).toThrowError(IllegalArgumentException);
     expect(() => n.insert(0, c)).not.toThrowError(MethodFailedException);
+    expect(() => n.insert(0, c)).not.toThrowError(InvalidStateException);
   });
   it("c is empty", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     expect(() => n.insert(0, "")).not.toThrowError(IllegalArgumentException);
     expect(() => n.insert(0, "")).not.toThrowError(MethodFailedException);
+    expect(() => n.insert(0, "")).not.toThrowError(InvalidStateException);
   });
   it("c is not masked", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     expect(() => n.insert(0, "test.")).toThrowError(IllegalArgumentException);
     expect(() => n.insert(0, "test.")).not.toThrowError(MethodFailedException);
+    expect(() => n.insert(0, "test.")).not.toThrowError(InvalidStateException);
   });
 });
 
@@ -672,22 +754,26 @@ describe("StringName append c", () => {
     let n: Name = new StringName("oss.cs.fau.de");
     expect(() => n.append("test")).not.toThrowError(IllegalArgumentException);
     expect(() => n.append("test")).not.toThrowError(MethodFailedException);
+    expect(() => n.append("test")).not.toThrowError(InvalidStateException);
   });
   it("c is undefined", () => {
     let n: Name = new StringName("oss.cs.fau.de");
     let c: string;
     expect(() => n.append(c)).toThrowError(IllegalArgumentException);
     expect(() => n.append(c)).not.toThrowError(MethodFailedException);
+    expect(() => n.append(c)).not.toThrowError(InvalidStateException);
   });
   it("c is empty", () => {
     let n: Name = new StringName("oss.cs.fau.de");
     expect(() => n.append("")).not.toThrowError(IllegalArgumentException);
     expect(() => n.append("")).not.toThrowError(MethodFailedException);
+    expect(() => n.append("")).not.toThrowError(InvalidStateException);
   });
   it("c is not masked", () => {
     let n: Name = new StringName("oss.cs.fau.de");
     expect(() => n.append("test.")).toThrowError(IllegalArgumentException);
     expect(() => n.append("test.")).not.toThrowError(MethodFailedException);
+    expect(() => n.append("test.")).not.toThrowError(InvalidStateException);
   });
 });
 
@@ -696,22 +782,26 @@ describe("StringArrayName append c", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     expect(() => n.append("test")).not.toThrowError(IllegalArgumentException);
     expect(() => n.append("test")).not.toThrowError(MethodFailedException);
+    expect(() => n.append("test")).not.toThrowError(InvalidStateException);
   });
   it("c is undefined", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     let c: string;
     expect(() => n.append(c)).toThrowError(IllegalArgumentException);
     expect(() => n.append(c)).not.toThrowError(MethodFailedException);
+    expect(() => n.append(c)).not.toThrowError(InvalidStateException);
   });
   it("c is empty", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     expect(() => n.append("")).not.toThrowError(IllegalArgumentException);
     expect(() => n.append("")).not.toThrowError(MethodFailedException);
+    expect(() => n.append("")).not.toThrowError(InvalidStateException);
   });
   it("c is not masked", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     expect(() => n.append("test.")).toThrowError(IllegalArgumentException);
     expect(() => n.append("test.")).not.toThrowError(MethodFailedException);
+    expect(() => n.append("test.")).not.toThrowError(InvalidStateException);
   });
 });
 
@@ -721,24 +811,29 @@ describe("StringName remove i", () => {
     let n2: Name = new StringName("oss.cs.fau.de");
     expect(() => n.remove(0)).not.toThrowError(IllegalArgumentException);
     expect(() => n.remove(0)).not.toThrowError(MethodFailedException);
+    expect(() => n2.remove(0)).not.toThrowError(InvalidStateException);
     expect(() => n2.remove(3)).not.toThrowError(IllegalArgumentException);
     expect(() => n2.remove(3)).not.toThrowError(MethodFailedException);
+    expect(() => n2.remove(3)).not.toThrowError(InvalidStateException);
   });
   it("i is undefined", () => {
     let n: Name = new StringName("oss.cs.fau.de");
     let i: number;
     expect(() => n.remove(i)).toThrowError(IllegalArgumentException);
     expect(() => n.remove(i)).not.toThrowError(MethodFailedException);
+    expect(() => n.remove(i)).not.toThrowError(InvalidStateException);
   });
   it("i is negative", () => {
     let n: Name = new StringName("oss.cs.fau.de");
     expect(() => n.remove(-1)).toThrowError(IllegalArgumentException);
     expect(() => n.remove(-1)).not.toThrowError(MethodFailedException);
+    expect(() => n.remove(-1)).not.toThrowError(InvalidStateException);
   });
   it("i is too large", () => {
     let n: Name = new StringName("oss.cs.fau.de");
     expect(() => n.remove(4)).toThrowError(IllegalArgumentException);
     expect(() => n.remove(4)).not.toThrowError(MethodFailedException);
+    expect(() => n.remove(4)).not.toThrowError(InvalidStateException);
   });
 });
 
@@ -748,23 +843,28 @@ describe("StringArrayName remove i", () => {
     let n2: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     expect(() => n.remove(0)).not.toThrowError(IllegalArgumentException);
     expect(() => n.remove(0)).not.toThrowError(MethodFailedException);
+    expect(() => n2.remove(0)).not.toThrowError(InvalidStateException);
     expect(() => n2.remove(3)).not.toThrowError(IllegalArgumentException);
     expect(() => n2.remove(3)).not.toThrowError(MethodFailedException);
+    expect(() => n2.remove(3)).not.toThrowError(InvalidStateException);
   });
   it("i is undefined", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     let i: number;
     expect(() => n.remove(i)).toThrowError(IllegalArgumentException);
     expect(() => n.remove(i)).not.toThrowError(MethodFailedException);
+    expect(() => n.remove(i)).not.toThrowError(InvalidStateException);
   });
   it("i is negative", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     expect(() => n.remove(-1)).toThrowError(IllegalArgumentException);
     expect(() => n.remove(-1)).not.toThrowError(MethodFailedException);
+    expect(() => n.remove(-1)).not.toThrowError(InvalidStateException);
   });
   it("i is too large", () => {
     let n: Name = new StringArrayName(["oss", "cs", "fau", "de"]);
     expect(() => n.remove(4)).toThrowError(IllegalArgumentException);
     expect(() => n.remove(4)).not.toThrowError(MethodFailedException);
+    expect(() => n.remove(4)).not.toThrowError(InvalidStateException);
   });
 });

@@ -35,7 +35,7 @@ export abstract class AbstractName implements Name {
         const clone = Object.create(Object.getPrototypeOf(this));
         const result = Object.assign(clone, this);
 
-        // Postcondition
+        // Postcondition & Class Invariant
         this.assertSuccessfulClone(result);
         this.assertClassInvariants();
         result.assertClassInvariants();
@@ -130,12 +130,13 @@ export abstract class AbstractName implements Name {
         // Kein Fehler bei unterschiedlichen Delimiter-Zeichen -> this Delimiter wird verwendet
 
         // Body
+        const savedName = this.getDeepCopy();
         let newName = this.getDeepCopy();
         for (let i = 0; i < other.getNoComponents(); i++) {
             newName = newName.append(other.getComponent(i));
         }
 
-        // Postcondition
+        // Postcondition & Class Invariant
         this.assertSuccessfulConcat(newName, other);
         this.assertClassInvariants();
         if (newName instanceof AbstractName) {
@@ -143,6 +144,9 @@ export abstract class AbstractName implements Name {
         }
         if (other instanceof AbstractName) {
             other.assertClassInvariants();
+        }
+        if (savedName instanceof AbstractName) {
+            this.assertStateDidNotChange(savedName);
         }
         return newName;
     }
@@ -255,6 +259,14 @@ export abstract class AbstractName implements Name {
 
 
     /* Assertion methods for class invariants */
+
+    protected assertStateDidNotChange(savedName: AbstractName): void {
+        InvalidStateException.assert(this.getDelimiterCharacter() === savedName.getDelimiterCharacter(), "state changed");
+        InvalidStateException.assert(this.getNoComponents() === savedName.getNoComponents(), "state changed");
+        for (let i = 0; i < this.getNoComponents(); i++) {
+            InvalidStateException.assert(this.getComponent(i) === savedName.getComponent(i), "state changed");
+        }
+    }
 
     protected assertHasValidDelimiter(): void {
         this.assertIsValidDelimiter(this.getDelimiterCharacter(), true);
