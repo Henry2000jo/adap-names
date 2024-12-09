@@ -32,6 +32,7 @@ export abstract class AbstractName implements Name {
         this.assertClassInvariants();
         
         // Body
+        const savedName = this.getDeepCopy();
         const clone = Object.create(Object.getPrototypeOf(this));
         const result = Object.assign(clone, this);
 
@@ -39,6 +40,7 @@ export abstract class AbstractName implements Name {
         this.assertSuccessfulClone(result);
         this.assertClassInvariants();
         result.assertClassInvariants();
+        this.assertStateDidNotChange(savedName);
         return result;
     }
 
@@ -260,7 +262,7 @@ export abstract class AbstractName implements Name {
 
     /* Assertion methods for class invariants */
 
-    protected assertStateDidNotChange(savedName: AbstractName): void {
+    protected assertStateDidNotChange(savedName: Name): void {
         InvalidStateException.assert(this.getDelimiterCharacter() === savedName.getDelimiterCharacter(), "state changed");
         InvalidStateException.assert(this.getNoComponents() === savedName.getNoComponents(), "state changed");
         for (let i = 0; i < this.getNoComponents(); i++) {
