@@ -56,4 +56,43 @@ describe("Escape character extravaganza", () => {
     n.append("people");
     expect(n.asString()).toBe("oss.cs.fau.de#people");
   });
+
+  it("test escape and delimiter boundary conditions", () => {
+    let n: Name = new StringName("oss.cs\\.fau.de", '#');
+    expect(n.getNoComponents()).toBe(1);
+    expect(n.asDataString()).toBe("oss.cs\\.fau.de");
+    n.append("people");
+    expect(n.asString()).toBe("oss.cs\\.fau.de#people");
+  });
+
+  it("test escape and delimiter boundary conditions", () => {
+    let n: Name = new StringName("oss.cs\\.fau.de", '.');
+    expect(n.getNoComponents()).toBe(3);
+    expect(n.asDataString()).toBe("oss.cs\\.fau.de");
+    n.append("people");
+    expect(n.asString()).toBe("oss.cs.fau.de.people");
+  });
+  it("test escape and delimiter boundary conditions", () => {
+    let n: Name = new StringName("oss.cs\\\\.fau.de", '.');
+    expect(n.getNoComponents()).toBe(3);
+    expect(n.asDataString()).toBe("oss.cs\\\\.fau.de");
+    n.append("people");
+    expect(n.asString()).toBe("oss.cs\\.fau.de.people");
+  });
+  it("test escape and delimiter boundary conditions", () => {
+    let n: Name = new StringName("oss\\.cs\\.fau\\.de", '.');
+    expect(n.getNoComponents()).toBe(1);
+    //expect(n.asDataString()).toBe("oss.cs\\\\.fau.de");
+    //n.append("people");
+    expect(n.asString()).toBe("oss.cs.fau.de");
+  });
+  it("test escape and delimiter boundary conditions", () => {
+    let n: Name = new StringArrayName(["oss\\.cs\\.fau\\.de"], '.');
+    expect(n.getNoComponents()).toBe(1);
+    //expect(n.asDataString()).toBe("oss.cs\\\\.fau.de");
+    //n.append("people");
+    expect(n.asString()).toBe("oss.cs.fau.de");
+  });
+
+
 });
